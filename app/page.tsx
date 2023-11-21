@@ -36,7 +36,7 @@ class WordSearch {
         this.solved = 0;
 
         this.settings = {
-            directions: ["W", "N", "WN", "EN"],
+            directions: ["W", "N", "WN", "EN", "S", "E", "SE", "SW"],
             gridSize: 7,
             words: ["one", "two", "three", "four", "five"],
             wordsList: [],
@@ -121,43 +121,71 @@ class WordSearch {
                 N: number[];
                 WN: number[];
                 EN: number[];
+                S: number[];
+                E: number[];
+                SE: number[];
+                SW: number[];
             } = {
                 W: [0, 1],
                 N: [1, 0],
                 WN: [1, 1],
                 EN: [1, -1],
+                S: [1, 0],
+                E: [0, -1],
+                SE: [1, -1],
+                SW: [1, 1],
             },
             row: number = 0,
             col: number = 0;
 
         switch (direction) {
             case "W":
-                (row = this.randRange(0, this.settings.gridSize - 1)),
-                    (col = this.randRange(
-                        0,
-                        this.settings.gridSize - word.length
-                    ));
+                row = this.randRange(0, this.settings.gridSize - 1);
+                col = this.randRange(0, this.settings.gridSize - word.length);
                 break;
 
             case "N":
-                (row = this.randRange(0, this.settings.gridSize - word.length)),
-                    (col = this.randRange(0, this.settings.gridSize - 1));
+                row = this.randRange(0, this.settings.gridSize - word.length);
+                col = this.randRange(0, this.settings.gridSize - 1);
                 break;
 
             case "WN":
-                (row = this.randRange(0, this.settings.gridSize - word.length)),
-                    (col = this.randRange(
-                        0,
-                        this.settings.gridSize - word.length
-                    ));
+                row = this.randRange(0, this.settings.gridSize - word.length);
+                col = this.randRange(0, this.settings.gridSize - word.length);
                 break;
 
             case "EN":
-                (row = this.randRange(0, this.settings.gridSize - word.length)),
-                    (col = this.randRange(
-                        word.length - 1,
-                        this.settings.gridSize - 1
-                    ));
+                row = this.randRange(0, this.settings.gridSize - word.length);
+                col = this.randRange(
+                    word.length - 1,
+                    this.settings.gridSize - 1
+                );
+                break;
+
+            case "S":
+                row = this.randRange(0, this.settings.gridSize - word.length);
+                col = this.randRange(0, this.settings.gridSize - 1);
+                break;
+
+            case "E":
+                row = this.randRange(0, this.settings.gridSize - 1);
+                col = this.randRange(
+                    word.length - 1,
+                    this.settings.gridSize - 1
+                );
+                break;
+
+            case "SE":
+                row = this.randRange(0, this.settings.gridSize - word.length);
+                col = this.randRange(
+                    word.length - 1,
+                    this.settings.gridSize - 1
+                );
+                break;
+
+            case "SW":
+                row = this.randRange(0, this.settings.gridSize - word.length);
+                col = this.randRange(0, this.settings.gridSize - word.length);
                 break;
 
             default:
@@ -210,162 +238,6 @@ class WordSearch {
             }
         }
     }
-
-    // drawMatrix() {
-    //     for (let row = 0; row < this.settings.gridSize; row++) {
-    //         let divEl = document.createElement("div");
-    //         divEl.setAttribute("class", "ws-row");
-    //         this.wrapEl.appendChild(divEl);
-
-    //         for (let col = 0; col < this.settings.gridSize; col++) {
-    //             let cvEl = document.createElement("canvas");
-    //             cvEl.setAttribute("class", "ws-col");
-    //             cvEl.setAttribute("width", "40");
-    //             cvEl.setAttribute("height", "40");
-
-    //             let x = cvEl.width / 2,
-    //                 y = cvEl.height / 2;
-
-    //             let ctx = cvEl.getContext("2d");
-    //             if (ctx) {
-    //                 ctx.font = "400 28px Calibri";
-    //                 ctx.textAlign = "center";
-    //                 ctx.textBaseline = "middle";
-    //                 ctx.fillStyle = "#333";
-    //                 ctx.fillText(this.matrix[row][col].letter, x, y);
-
-    //                 cvEl.addEventListener(
-    //                     "mousedown",
-    //                     this.onMouseDown(this.matrix[row][col])
-    //                 );
-    //                 cvEl.addEventListener(
-    //                     "touchstart",
-    //                     this.onTouchStart(this.matrix[row][col])
-    //                 );
-    //                 cvEl.addEventListener(
-    //                     "mouseover",
-    //                     this.onMouseOver(this.matrix[row][col])
-    //                 );
-    //                 cvEl.addEventListener(
-    //                     "touchmove",
-    //                     this.onTouchMove(this.matrix[row][col])
-    //                 );
-    //                 cvEl.addEventListener("mouseup", this.onMouseUp());
-    //                 cvEl.addEventListener("touchend", this.onTouchEnd());
-    //             }
-
-    //             divEl.appendChild(cvEl);
-    //         }
-    //     }
-    // }
-
-    // drawMatrix() {
-    //     const handleTouchStart = (event: TouchEvent) => {
-    //         event.preventDefault();
-    //         const touch = event.touches[0];
-    //         const touchedElement = document.elementFromPoint(
-    //             touch.clientX,
-    //             touch.clientY
-    //         ) as HTMLElement | null;
-
-    //         if (touchedElement && touchedElement.tagName === "CANVAS") {
-    //             const row = parseInt(
-    //                 touchedElement.parentElement?.dataset.row || "0",
-    //                 10
-    //             );
-    //             const col = parseInt(touchedElement.dataset.col || "0", 10);
-    //             this.selectFrom = this.matrix[row][col];
-    //         }
-    //     };
-
-    //     const handleTouchMove = (event: TouchEvent) => {
-    //         event.preventDefault();
-    //         if (this.selectFrom) {
-    //             const touch = event.touches[0];
-    //             const touchedElement = document.elementFromPoint(
-    //                 touch.clientX,
-    //                 touch.clientY
-    //             ) as HTMLElement | null;
-
-    //             if (touchedElement && touchedElement.tagName === "CANVAS") {
-    //                 const row = parseInt(
-    //                     touchedElement.parentElement?.dataset.row || "0",
-    //                     10
-    //                 );
-    //                 const col = parseInt(touchedElement.dataset.col || "0", 10);
-
-    //                 const path = this.getTouchPath(
-    //                     this.selectFrom.row,
-    //                     this.selectFrom.col,
-    //                     row,
-    //                     col
-    //                 );
-
-    //                 this.selected = path.filter(
-    //                     (cell): cell is Cell => cell !== undefined
-    //                 );
-
-    //                 this.clearHighlight();
-
-    //                 for (let i = 0; i < this.selected.length; i++) {
-    //                     let current = this.selected[i],
-    //                         row = current.row + 1,
-    //                         col = current.col + 1,
-    //                         el = document.querySelector(
-    //                             ".ws-area .ws-row:nth-child(" +
-    //                                 row +
-    //                                 ") .ws-col:nth-child(" +
-    //                                 col +
-    //                                 ")"
-    //                         );
-
-    //                     if (el) {
-    //                         el.className += " ws-selected";
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     };
-
-    //     const handleTouchEnd = () => {
-    //         this.selectFrom = null;
-    //         this.clearHighlight();
-    //         this.lookup(this.selected);
-    //         this.selected = [];
-    //     };
-
-    //     for (let row = 0; row < this.settings.gridSize; row++) {
-    //         let divEl = document.createElement("div");
-    //         divEl.setAttribute("class", "ws-row");
-    //         this.wrapEl.appendChild(divEl);
-
-    //         for (let col = 0; col < this.settings.gridSize; col++) {
-    //             let cvEl = document.createElement("canvas");
-    //             cvEl.setAttribute("class", "ws-col");
-    //             cvEl.setAttribute("width", "40");
-    //             cvEl.setAttribute("height", "40");
-
-    //             let x = cvEl.width / 2,
-    //                 y = cvEl.height / 2;
-
-    //             let ctx = cvEl.getContext("2d");
-    //             if (ctx) {
-    //                 ctx.font = "400 28px Calibri";
-    //                 ctx.textAlign = "center";
-    //                 ctx.textBaseline = "middle";
-    //                 ctx.fillStyle = "#333";
-    //                 ctx.fillText(this.matrix[row][col].letter, x, y);
-    //             }
-
-    //             divEl.appendChild(cvEl);
-    //         }
-    //     }
-
-    //     // Attach touch event listeners to the entire grid
-    //     this.wrapEl.addEventListener("touchstart", handleTouchStart);
-    //     this.wrapEl.addEventListener("touchmove", handleTouchMove);
-    //     this.wrapEl.addEventListener("touchend", handleTouchEnd);
-    // }
 
     drawMatrix() {
         const handleTouchStart = (event: TouchEvent) => {
