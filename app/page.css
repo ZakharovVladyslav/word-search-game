@@ -147,7 +147,15 @@ body {
     }
 
     .container {
+        flex-direction: column;
         gap: 1.5rem;
+    }
+
+    .ws-words {
+        width: 100%;
+
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
