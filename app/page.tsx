@@ -376,9 +376,11 @@ class WordSearch {
             this.settings.words.indexOf(words[1]) > -1
         ) {
             // Generate random RGB values
-            const randomColor = `rgb(${Math.floor(Math.random() * 128) + 128}, ${Math.floor(
-                Math.random() * 128) + 128}, ${Math.floor(Math.random() * 128) + 128})`;
-
+            const randomColor = `rgb(${
+                Math.floor(Math.random() * 128) + 128
+            }, ${Math.floor(Math.random() * 128) + 128}, ${
+                Math.floor(Math.random() * 128) + 128
+            })`;
 
             for (let i = 0; i < selected.length; i++) {
                 let row = selected[i].row + 1,
@@ -396,7 +398,10 @@ class WordSearch {
 
                     // Apply the same random color to the entire found word
                     // el.style.backgroundColor = randomColor;
-                    el.setAttribute("style", `background-color: ${randomColor}`);
+                    el.setAttribute(
+                        "style",
+                        `background-color: ${randomColor}`
+                    );
                 }
             }
 
@@ -480,8 +485,25 @@ class WordSearch {
     }
 }
 
-const WordSearchComponent: React.FC = () => {
+export default function Home(): JSX.Element {
     const [gameAreaEl, setGameAreaEl] = useState<HTMLElement | null>(null);
+
+    const restartGame = () => {
+        // Clear the existing game area
+        const gameArea = document.getElementById("ws-area");
+        if (gameArea) {
+            gameArea.innerHTML = "";
+        }
+
+        // Clear the existing words list
+        const wordsWrap = document.querySelector(".ws-words");
+        if (wordsWrap) {
+            wordsWrap.innerHTML = "";
+        }
+
+        // Set the game area element to null to trigger useEffect and initialize a new game
+        setGameAreaEl(null);
+    };
 
     useEffect(() => {
         if (gameAreaEl) {
@@ -502,11 +524,13 @@ const WordSearchComponent: React.FC = () => {
     }, [gameAreaEl]);
 
     return (
-        <div>
-            <div id="ws-area" ref={(el) => setGameAreaEl(el)}></div>
-            <ul className="ws-words"></ul>
-        </div>
-    );
-};
+        <main>
+            <div className="container">
+                <div id="ws-area" ref={(el) => setGameAreaEl(el)}></div>
+                <ul className="ws-words"></ul>
+            </div>
 
-export default WordSearchComponent;
+            <button className="reset-game-btn" onClick={restartGame}>Restart Game</button>
+        </main>
+    );
+}
