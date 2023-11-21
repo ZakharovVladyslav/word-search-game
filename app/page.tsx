@@ -557,11 +557,9 @@ class WordSearch {
             this.settings.words.indexOf(words[1]) > -1
         ) {
             // Generate random RGB values
-            const randomColor = `rgb(${
+            const randomColor = `${Math.floor(Math.random() * 128) + 128}, ${
                 Math.floor(Math.random() * 128) + 128
-            }, ${Math.floor(Math.random() * 128) + 128}, ${
-                Math.floor(Math.random() * 128) + 128
-            })`;
+            }, ${Math.floor(Math.random() * 128) + 128}`;
 
             for (let i = 0; i < selected.length; i++) {
                 let row = selected[i].row + 1,
@@ -574,15 +572,28 @@ class WordSearch {
                             ")"
                     );
 
-                if (el) {
+                if (el instanceof HTMLElement) {
                     el.classList.add("ws-found");
 
-                    // Apply the same random color to the entire found word
-                    // el.style.backgroundColor = randomColor;
-                    el.setAttribute(
-                        "style",
-                        `background-color: ${randomColor}`
+                    console.log(
+                        window
+                            .getComputedStyle(el, null)
+                            .getPropertyValue("background-color")
                     );
+
+                    if (
+                        window
+                            .getComputedStyle(el, null)
+                            .getPropertyValue("background-color") ===
+                        "rgb(255, 255, 0)"
+                    ) {
+                        console.log(randomColor);
+                        console.log(`rgb(${randomColor})`);
+
+                        el.style.backgroundColor = `rgba(${randomColor}, 1)`;
+                    } else {
+                        el.style.backgroundColor = `rgba(${randomColor}, 0.4)`;
+                    }
                 }
             }
 
@@ -610,9 +621,7 @@ class WordSearch {
         }
     }
 
-    gameOver() {
-        alert("yay");
-    }
+    gameOver() {}
 
     onMouseDown(item: Cell) {
         return () => {

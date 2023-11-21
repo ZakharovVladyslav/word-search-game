@@ -2,12 +2,12 @@
 /* CSS reset */
 
 body {
-  height: 100vh;
+    height: 100vh;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 body,
@@ -35,10 +35,10 @@ body {
 }
 
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2rem;
 }
 
 /* Common */
@@ -82,7 +82,7 @@ body {
 }
 
 .ws-word {
-    margin-bottom: 4px;
+    margin-bottom: 0px;
 }
 
 .ws-words ::first-letter {
@@ -120,18 +120,18 @@ body {
 }
 
 .reset-game-btn {
-  cursor: pointer;
+    cursor: pointer;
 
-  background-color: transparent;
-  transition: all 0.1s ease-in-out;
+    background-color: transparent;
+    transition: all 0.1s ease-in-out;
 
-  padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem;
 
-  border: 1px solid white;
-  border-radius: 0.75rem;
+    border: 1px solid white;
+    border-radius: 0.75rem;
 }
 
 .reset-game-btn:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  transition: all 0.1s ease-in-out;
+    background-color: rgba(255, 255, 255, 0.3);
+    transition: all 0.1s ease-in-out;
 }
