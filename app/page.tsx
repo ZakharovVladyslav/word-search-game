@@ -1,7 +1,7 @@
 "use client";
 
 import "./page.css";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Cell {
     letter: string;
@@ -211,15 +211,248 @@ class WordSearch {
         }
     }
 
+    // drawMatrix() {
+    //     for (let row = 0; row < this.settings.gridSize; row++) {
+    //         let divEl = document.createElement("div");
+    //         divEl.setAttribute("class", "ws-row");
+    //         this.wrapEl.appendChild(divEl);
+
+    //         for (let col = 0; col < this.settings.gridSize; col++) {
+    //             let cvEl = document.createElement("canvas");
+    //             cvEl.setAttribute("class", "ws-col");
+    //             cvEl.setAttribute("width", "40");
+    //             cvEl.setAttribute("height", "40");
+
+    //             let x = cvEl.width / 2,
+    //                 y = cvEl.height / 2;
+
+    //             let ctx = cvEl.getContext("2d");
+    //             if (ctx) {
+    //                 ctx.font = "400 28px Calibri";
+    //                 ctx.textAlign = "center";
+    //                 ctx.textBaseline = "middle";
+    //                 ctx.fillStyle = "#333";
+    //                 ctx.fillText(this.matrix[row][col].letter, x, y);
+
+    //                 cvEl.addEventListener(
+    //                     "mousedown",
+    //                     this.onMouseDown(this.matrix[row][col])
+    //                 );
+    //                 cvEl.addEventListener(
+    //                     "touchstart",
+    //                     this.onTouchStart(this.matrix[row][col])
+    //                 );
+    //                 cvEl.addEventListener(
+    //                     "mouseover",
+    //                     this.onMouseOver(this.matrix[row][col])
+    //                 );
+    //                 cvEl.addEventListener(
+    //                     "touchmove",
+    //                     this.onTouchMove(this.matrix[row][col])
+    //                 );
+    //                 cvEl.addEventListener("mouseup", this.onMouseUp());
+    //                 cvEl.addEventListener("touchend", this.onTouchEnd());
+    //             }
+
+    //             divEl.appendChild(cvEl);
+    //         }
+    //     }
+    // }
+
+    // drawMatrix() {
+    //     const handleTouchStart = (event: TouchEvent) => {
+    //         event.preventDefault();
+    //         const touch = event.touches[0];
+    //         const touchedElement = document.elementFromPoint(
+    //             touch.clientX,
+    //             touch.clientY
+    //         ) as HTMLElement | null;
+
+    //         if (touchedElement && touchedElement.tagName === "CANVAS") {
+    //             const row = parseInt(
+    //                 touchedElement.parentElement?.dataset.row || "0",
+    //                 10
+    //             );
+    //             const col = parseInt(touchedElement.dataset.col || "0", 10);
+    //             this.selectFrom = this.matrix[row][col];
+    //         }
+    //     };
+
+    //     const handleTouchMove = (event: TouchEvent) => {
+    //         event.preventDefault();
+    //         if (this.selectFrom) {
+    //             const touch = event.touches[0];
+    //             const touchedElement = document.elementFromPoint(
+    //                 touch.clientX,
+    //                 touch.clientY
+    //             ) as HTMLElement | null;
+
+    //             if (touchedElement && touchedElement.tagName === "CANVAS") {
+    //                 const row = parseInt(
+    //                     touchedElement.parentElement?.dataset.row || "0",
+    //                     10
+    //                 );
+    //                 const col = parseInt(touchedElement.dataset.col || "0", 10);
+
+    //                 const path = this.getTouchPath(
+    //                     this.selectFrom.row,
+    //                     this.selectFrom.col,
+    //                     row,
+    //                     col
+    //                 );
+
+    //                 this.selected = path.filter(
+    //                     (cell): cell is Cell => cell !== undefined
+    //                 );
+
+    //                 this.clearHighlight();
+
+    //                 for (let i = 0; i < this.selected.length; i++) {
+    //                     let current = this.selected[i],
+    //                         row = current.row + 1,
+    //                         col = current.col + 1,
+    //                         el = document.querySelector(
+    //                             ".ws-area .ws-row:nth-child(" +
+    //                                 row +
+    //                                 ") .ws-col:nth-child(" +
+    //                                 col +
+    //                                 ")"
+    //                         );
+
+    //                     if (el) {
+    //                         el.className += " ws-selected";
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     };
+
+    //     const handleTouchEnd = () => {
+    //         this.selectFrom = null;
+    //         this.clearHighlight();
+    //         this.lookup(this.selected);
+    //         this.selected = [];
+    //     };
+
+    //     for (let row = 0; row < this.settings.gridSize; row++) {
+    //         let divEl = document.createElement("div");
+    //         divEl.setAttribute("class", "ws-row");
+    //         this.wrapEl.appendChild(divEl);
+
+    //         for (let col = 0; col < this.settings.gridSize; col++) {
+    //             let cvEl = document.createElement("canvas");
+    //             cvEl.setAttribute("class", "ws-col");
+    //             cvEl.setAttribute("width", "40");
+    //             cvEl.setAttribute("height", "40");
+
+    //             let x = cvEl.width / 2,
+    //                 y = cvEl.height / 2;
+
+    //             let ctx = cvEl.getContext("2d");
+    //             if (ctx) {
+    //                 ctx.font = "400 28px Calibri";
+    //                 ctx.textAlign = "center";
+    //                 ctx.textBaseline = "middle";
+    //                 ctx.fillStyle = "#333";
+    //                 ctx.fillText(this.matrix[row][col].letter, x, y);
+    //             }
+
+    //             divEl.appendChild(cvEl);
+    //         }
+    //     }
+
+    //     // Attach touch event listeners to the entire grid
+    //     this.wrapEl.addEventListener("touchstart", handleTouchStart);
+    //     this.wrapEl.addEventListener("touchmove", handleTouchMove);
+    //     this.wrapEl.addEventListener("touchend", handleTouchEnd);
+    // }
+
     drawMatrix() {
+        const handleTouchStart = (event: TouchEvent) => {
+            event.preventDefault();
+            const touch = event.touches[0];
+            const touchedElement = document.elementFromPoint(
+                touch.clientX,
+                touch.clientY
+            ) as HTMLElement | null;
+
+            if (touchedElement && touchedElement.tagName === "CANVAS") {
+                const row = parseInt(
+                    touchedElement.parentElement?.dataset.row || "0",
+                    10
+                );
+                const col = parseInt(touchedElement.dataset.col || "0", 10);
+                this.selectFrom = this.matrix[row][col];
+            }
+        };
+
+        const handleTouchMove = (event: TouchEvent) => {
+            event.preventDefault();
+            if (this.selectFrom) {
+                const touch = event.touches[0];
+                const touchedElement = document.elementFromPoint(
+                    touch.clientX,
+                    touch.clientY
+                ) as HTMLElement | null;
+
+                if (touchedElement && touchedElement.tagName === "CANVAS") {
+                    const row = parseInt(
+                        touchedElement.parentElement?.dataset.row || "0",
+                        10
+                    );
+                    const col = parseInt(touchedElement.dataset.col || "0", 10);
+
+                    const path = this.getTouchPath(
+                        this.selectFrom.row,
+                        this.selectFrom.col,
+                        row,
+                        col
+                    );
+
+                    this.selected = path.filter(
+                        (cell): cell is Cell => cell !== undefined
+                    );
+
+                    this.clearHighlight();
+
+                    for (let i = 0; i < this.selected.length; i++) {
+                        let current = this.selected[i],
+                            row = current.row + 1,
+                            col = current.col + 1,
+                            el = document.querySelector(
+                                ".ws-area .ws-row:nth-child(" +
+                                    row +
+                                    ") .ws-col:nth-child(" +
+                                    col +
+                                    ")"
+                            );
+
+                        if (el) {
+                            el.className += " ws-selected";
+                        }
+                    }
+                }
+            }
+        };
+
+        const handleTouchEnd = () => {
+            if (this.selectFrom) {
+                this.lookup([this.selectFrom]); // Modify to pass an array of selected cells
+                this.selectFrom = null;
+                this.clearHighlight();
+            }
+        };
+
         for (let row = 0; row < this.settings.gridSize; row++) {
             let divEl = document.createElement("div");
             divEl.setAttribute("class", "ws-row");
+            divEl.dataset.row = row.toString();
             this.wrapEl.appendChild(divEl);
 
             for (let col = 0; col < this.settings.gridSize; col++) {
                 let cvEl = document.createElement("canvas");
                 cvEl.setAttribute("class", "ws-col");
+                cvEl.dataset.col = col.toString();
                 cvEl.setAttribute("width", "40");
                 cvEl.setAttribute("height", "40");
 
@@ -239,19 +472,29 @@ class WordSearch {
                         this.onMouseDown(this.matrix[row][col])
                     );
                     cvEl.addEventListener(
-                        "touchmove",
-                        this.onMouseDown(this.matrix[row][col])
+                        "touchstart",
+                        this.onTouchStart(this.matrix[row][col])
                     );
                     cvEl.addEventListener(
                         "mouseover",
                         this.onMouseOver(this.matrix[row][col])
                     );
+                    cvEl.addEventListener(
+                        "touchmove",
+                        this.onTouchMove(this.matrix[row][col])
+                    );
                     cvEl.addEventListener("mouseup", this.onMouseUp());
+                    cvEl.addEventListener("touchend", this.onTouchEnd());
                 }
 
                 divEl.appendChild(cvEl);
             }
         }
+
+        // Attach touch event listeners to the entire grid
+        this.wrapEl.addEventListener("touchstart", handleTouchStart);
+        this.wrapEl.addEventListener("touchmove", handleTouchMove);
+        this.wrapEl.addEventListener("touchend", handleTouchEnd);
     }
 
     fillUpFools() {
@@ -300,68 +543,6 @@ class WordSearch {
             selectedEls[i].classList.remove("ws-selected");
         }
     }
-
-    // lookup(selected: Cell[]) {
-    //     let words = [""];
-
-    //     for (let i = 0; i < selected.length; i++) {
-    //         words[0] += selected[i].letter;
-    //     }
-    //     words.push(words[0].split("").reverse().join(""));
-
-    //     if (
-    //         this.settings.words.indexOf(words[0]) > -1 ||
-    //         this.settings.words.indexOf(words[1]) > -1
-    //     ) {
-    //         for (let i = 0; i < selected.length; i++) {
-    //             let row = selected[i].row + 1,
-    //                 col = selected[i].col + 1,
-    //                 el = document.querySelector(
-    //                     ".ws-area .ws-row:nth-child(" +
-    //                         row +
-    //                         ") .ws-col:nth-child(" +
-    //                         col +
-    //                         ")"
-    //                 );
-
-    //             if (el) {
-    //                 el.classList.add("ws-found");
-
-    //                 const randomColor = `rgb(${Math.floor(
-    //                     Math.random() * 256
-    //                 )}, ${Math.floor(Math.random() * 256)}, ${Math.floor(
-    //                     Math.random() * 256
-    //                 )})`;
-
-    //                 // Apply random color to the found word
-    //                 // el.style.backgroundColor = randomColor;
-    //                 el.setAttribute("style", `background-color: ${randomColor}`);
-    //             }
-    //         }
-
-    //         let wordList = document.querySelector(".ws-words");
-    //         let wordListItems = wordList?.getElementsByTagName("li");
-
-    //         if (wordListItems) {
-    //             for (let i = 0; i < wordListItems.length; i++) {
-    //                 if (words[0] === wordListItems[i].innerHTML.toUpperCase()) {
-    //                     if (
-    //                         wordListItems[i].innerHTML !=
-    //                         "<del>" + wordListItems[i].innerHTML + "</del>"
-    //                     ) {
-    //                         wordListItems[i].innerHTML =
-    //                             "<del>" + wordListItems[i].innerHTML + "</del>";
-    //                         this.solved++;
-    //                     }
-    //                 }
-    //             }
-    //         }
-
-    //         if (this.solved === this.settings.words.length) {
-    //             this.gameOver();
-    //         }
-    //     }
-    // }
 
     lookup(selected: Cell[]) {
         let words = [""];
@@ -480,6 +661,103 @@ class WordSearch {
         };
     }
 
+    onTouchStart(item: Cell) {
+        return (event: TouchEvent) => {
+            event.preventDefault();
+            this.selectFrom = item;
+        };
+    }
+
+    onTouchMove(item: Cell) {
+        return (event: TouchEvent) => {
+            event.preventDefault();
+            if (this.selectFrom) {
+                const touch = event.touches[0];
+                const touchedElement = document.elementFromPoint(
+                    touch.clientX,
+                    touch.clientY
+                ) as HTMLElement | null;
+
+                if (touchedElement && touchedElement.tagName === "CANVAS") {
+                    const row = parseInt(
+                        touchedElement.parentElement?.dataset.row || "0",
+                        10
+                    );
+                    const col = parseInt(touchedElement.dataset.col || "0", 10);
+
+                    const path = this.getTouchPath(
+                        this.selectFrom.row,
+                        this.selectFrom.col,
+                        row,
+                        col
+                    );
+
+                    this.selected = path.filter(
+                        (cell): cell is Cell => cell !== undefined
+                    );
+
+                    this.clearHighlight();
+
+                    for (let i = 0; i < this.selected.length; i++) {
+                        let current = this.selected[i],
+                            row = current.row + 1,
+                            col = current.col + 1,
+                            el = document.querySelector(
+                                ".ws-area .ws-row:nth-child(" +
+                                    row +
+                                    ") .ws-col:nth-child(" +
+                                    col +
+                                    ")"
+                            );
+
+                        if (el) {
+                            el.className += " ws-selected";
+                        }
+                    }
+                }
+            }
+        };
+    }
+
+    getTouchPath(
+        rowFrom: number,
+        colFrom: number,
+        rowTo: number,
+        colTo: number
+    ) {
+        let path: Cell[] = [];
+
+        if (
+            rowFrom === rowTo ||
+            colFrom === colTo ||
+            Math.abs(rowTo - rowFrom) === Math.abs(colTo - colFrom)
+        ) {
+            let shiftY = rowFrom === rowTo ? 0 : rowTo > rowFrom ? 1 : -1,
+                shiftX = colFrom === colTo ? 0 : colTo > colFrom ? 1 : -1,
+                row = rowFrom,
+                col = colFrom;
+
+            path.push(this.getItem(row, col) as Cell);
+            do {
+                row += shiftY;
+                col += shiftX;
+                path.push(this.getItem(row, col) as Cell);
+            } while (row !== rowTo || col !== colTo);
+        }
+
+        return path;
+    }
+
+    onTouchEnd() {
+        return (event: TouchEvent) => {
+            event.preventDefault();
+            this.selectFrom = null;
+            this.clearHighlight();
+            this.lookup(this.selected);
+            this.selected = [];
+        };
+    }
+
     private randRange(min: number, max: number) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
@@ -530,7 +808,9 @@ export default function Home(): JSX.Element {
                 <ul className="ws-words"></ul>
             </div>
 
-            <button className="reset-game-btn" onClick={restartGame}>Restart Game</button>
+            <button className="reset-game-btn" onClick={restartGame}>
+                Restart Game
+            </button>
         </main>
     );
 }
