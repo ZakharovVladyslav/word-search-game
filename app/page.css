@@ -135,3 +135,56 @@ body {
     background-color: rgba(255, 255, 255, 0.3);
     transition: all 0.1s ease-in-out;
 }
+
+@media screen and (max-width: 425px) {
+    .ws-words {
+        font-size: 1rem;
+    }
+
+    .ws-col {
+        width: 30px;
+        height: 30px;
+    }
+
+    .container {
+        gap: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .ws-words {
+        font-size: 0.75rem;
+    }
+
+    .ws-col {
+        width: 25px;
+        height: 25px;
+    }
+
+    .container {
+        gap: 1rem;
+    }
+
+    .reset-game-btn {
+        font-size: 0.75rem;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .ws-words {
+        font-size: 0.5rem;
+    }
+
+    .ws-col {
+        width: 20px;
+        height: 20px;
+    }
+
+    .container {
+        gap: 0.5rem;
+    }
+
+    .reset-game-btn {
+        font-size: 0.63rem;
+    }
+}
